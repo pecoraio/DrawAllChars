@@ -36,7 +36,7 @@ namespace DrawAllChars
             using (var g = Graphics.FromImage(bmp))
             using (var tg = Graphics.FromImage(tbmp))
             using (var font = new Font(this.Font.Name , 16))
-            using (var font2 = new Font(this.Font.Name, 16,FontStyle.Bold))
+            using (var font2 = new Font(this.Font.Name, 16,FontStyle.Regular))
             using (var fmt = new StringFormat(StringFormat.GenericTypographic))
             //using (var br = Brushes.Black)
             {
@@ -82,7 +82,7 @@ namespace DrawAllChars
                         {
                             g.DrawString(str, font2, Brushes.Red, left, top, fmt);
                             Err = true;
-                            TextRenderer.DrawText(g, str, font, new Point(left, top), Color.Black);
+                            TextRenderer.DrawText(g, str, font, new Point(left, top), Color.Green);
                         }
                         //TextRenderer.DrawText(g, str, font, new Point(left, top), Color.Black);
                         left += wid + 5;
