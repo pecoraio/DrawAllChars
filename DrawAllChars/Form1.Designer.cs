@@ -30,7 +30,7 @@ namespace DrawAllChars
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btStart = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.status_disp = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -48,6 +48,9 @@ namespace DrawAllChars
             this.label1 = new System.Windows.Forms.Label();
             this.btPrv = new System.Windows.Forms.Button();
             this.btNxt = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.nuSEnd = new System.Windows.Forms.NumericUpDown();
+            this.nuSStart = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -55,6 +58,8 @@ namespace DrawAllChars
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nuStart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nuEnd)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nuSEnd)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nuSStart)).BeginInit();
             this.SuspendLayout();
             // 
             // btStart
@@ -97,9 +102,9 @@ namespace DrawAllChars
             // 
             this.ORDER_DATE.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.ORDER_DATE.DataPropertyName = "ORDER_DATE";
-            dataGridViewCellStyle1.Format = "yyyy/MM/dd HH:mm:ss";
-            dataGridViewCellStyle1.NullValue = null;
-            this.ORDER_DATE.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Format = "yyyy/MM/dd HH:mm:ss";
+            dataGridViewCellStyle3.NullValue = null;
+            this.ORDER_DATE.DefaultCellStyle = dataGridViewCellStyle3;
             this.ORDER_DATE.HeaderText = "注文日時";
             this.ORDER_DATE.MinimumWidth = 6;
             this.ORDER_DATE.Name = "ORDER_DATE";
@@ -159,6 +164,9 @@ namespace DrawAllChars
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.label2);
+            this.splitContainer1.Panel1.Controls.Add(this.nuSEnd);
+            this.splitContainer1.Panel1.Controls.Add(this.nuSStart);
             this.splitContainer1.Panel1.Controls.Add(this.btNxt);
             this.splitContainer1.Panel1.Controls.Add(this.btPrv);
             this.splitContainer1.Panel1.Controls.Add(this.label1);
@@ -170,8 +178,8 @@ namespace DrawAllChars
             // 
             this.splitContainer1.Panel2.Controls.Add(this.pictureBox1);
             this.splitContainer1.Panel2MinSize = 0;
-            this.splitContainer1.Size = new System.Drawing.Size(1687, 1065);
-            this.splitContainer1.SplitterDistance = 105;
+            this.splitContainer1.Size = new System.Drawing.Size(1147, 1151);
+            this.splitContainer1.SplitterDistance = 113;
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -182,8 +190,8 @@ namespace DrawAllChars
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(5);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1687, 955);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.Size = new System.Drawing.Size(1147, 1033);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
@@ -207,7 +215,7 @@ namespace DrawAllChars
             this.nuStart.TabIndex = 0;
             this.nuStart.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.nuStart.Value = new decimal(new int[] {
-            128512,
+            126976,
             0,
             0,
             0});
@@ -237,7 +245,7 @@ namespace DrawAllChars
             this.nuEnd.TabIndex = 1;
             this.nuEnd.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.nuEnd.Value = new decimal(new int[] {
-            128767,
+            130048,
             0,
             0,
             0});
@@ -256,31 +264,103 @@ namespace DrawAllChars
             // 
             this.btPrv.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btPrv.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.btPrv.Location = new System.Drawing.Point(1415, 21);
+            this.btPrv.Location = new System.Drawing.Point(832, 41);
             this.btPrv.Margin = new System.Windows.Forms.Padding(4);
             this.btPrv.Name = "btPrv";
             this.btPrv.Size = new System.Drawing.Size(90, 60);
             this.btPrv.TabIndex = 3;
             this.btPrv.Text = "◁";
             this.btPrv.UseVisualStyleBackColor = true;
+            this.btPrv.Click += new System.EventHandler(this.btPrv_Click);
             // 
             // btNxt
             // 
             this.btNxt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btNxt.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.btNxt.Location = new System.Drawing.Point(1556, 21);
+            this.btNxt.Location = new System.Drawing.Point(1016, 40);
             this.btNxt.Margin = new System.Windows.Forms.Padding(4);
             this.btNxt.Name = "btNxt";
             this.btNxt.Size = new System.Drawing.Size(90, 60);
             this.btNxt.TabIndex = 4;
             this.btNxt.Text = "▷";
             this.btNxt.UseVisualStyleBackColor = true;
+            this.btNxt.Click += new System.EventHandler(this.btNxt_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("ＭＳ ゴシック", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label2.Location = new System.Drawing.Point(1496, 10);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(20, 20);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "-";
+            this.label2.Visible = false;
+            // 
+            // nuSEnd
+            // 
+            this.nuSEnd.Enabled = false;
+            this.nuSEnd.Font = new System.Drawing.Font("ＭＳ ゴシック", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.nuSEnd.Hexadecimal = true;
+            this.nuSEnd.Increment = new decimal(new int[] {
+            16,
+            0,
+            0,
+            0});
+            this.nuSEnd.Location = new System.Drawing.Point(1536, 5);
+            this.nuSEnd.Maximum = new decimal(new int[] {
+            983039,
+            0,
+            0,
+            0});
+            this.nuSEnd.Minimum = new decimal(new int[] {
+            16,
+            0,
+            0,
+            0});
+            this.nuSEnd.Name = "nuSEnd";
+            this.nuSEnd.Size = new System.Drawing.Size(120, 30);
+            this.nuSEnd.TabIndex = 7;
+            this.nuSEnd.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nuSEnd.Value = new decimal(new int[] {
+            128767,
+            0,
+            0,
+            0});
+            this.nuSEnd.Visible = false;
+            // 
+            // nuSStart
+            // 
+            this.nuSStart.Enabled = false;
+            this.nuSStart.Font = new System.Drawing.Font("ＭＳ ゴシック", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.nuSStart.Hexadecimal = true;
+            this.nuSStart.Increment = new decimal(new int[] {
+            16,
+            0,
+            0,
+            0});
+            this.nuSStart.Location = new System.Drawing.Point(1356, 5);
+            this.nuSStart.Maximum = new decimal(new int[] {
+            983039,
+            0,
+            0,
+            0});
+            this.nuSStart.Name = "nuSStart";
+            this.nuSStart.Size = new System.Drawing.Size(120, 30);
+            this.nuSStart.TabIndex = 6;
+            this.nuSStart.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nuSStart.Value = new decimal(new int[] {
+            128512,
+            0,
+            0,
+            0});
+            this.nuSStart.Visible = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1687, 1065);
+            this.ClientSize = new System.Drawing.Size(1147, 1151);
             this.Controls.Add(this.splitContainer1);
             this.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -294,6 +374,8 @@ namespace DrawAllChars
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nuStart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nuEnd)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nuSEnd)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nuSStart)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -317,6 +399,9 @@ namespace DrawAllChars
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown nuEnd;
         private System.Windows.Forms.NumericUpDown nuStart;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.NumericUpDown nuSEnd;
+        private System.Windows.Forms.NumericUpDown nuSStart;
     }
 }
 
