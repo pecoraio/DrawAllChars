@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,9 +15,9 @@ namespace DrawAllChars
     public partial class Form1 : Form
     {
         Bitmap bmp;
-        //Dictionary<(int,int),Bitmap> dic = new Dictionary<(int,int), Bitmap>();
         LinkedList<Bitmap> bmps = new LinkedList<Bitmap>();
         LinkedListNode<Bitmap> CurNode;
+        byte[] Tofu;
         public Form1()
         {
             InitializeComponent();
@@ -31,7 +32,9 @@ namespace DrawAllChars
             foreach (var b in bmps)
                 b.Dispose();
 
+            var tbmp = new Bitmap(21, 21);
             using (var g = Graphics.FromImage(bmp))
+            using (var tg = Graphics.FromImage(tbmp))
             using (var font = new Font(this.Font.Name , 16))
             using (var font2 = new Font(this.Font.Name, 16,FontStyle.Bold))
             using (var fmt = new StringFormat(StringFormat.GenericTypographic))
@@ -39,6 +42,10 @@ namespace DrawAllChars
             {
                 //g.PageUnit = GraphicsUnit.Pixel;
                 g.Clear(Color.White);
+                tg.Clear(Color.White);
+                tg.DrawString(Char.ConvertFromUtf32(0x1F000), font, Brushes.Black, 0, 0, fmt);
+                Tofu = ImageToByteArray(tbmp);
+
 
                 int top = 5;
                 int start = (int)nuStart.Value;
@@ -60,23 +67,25 @@ namespace DrawAllChars
                     for (int Rdigit = 0; Rdigit < 0x10; Rdigit++)
                     {
                         ichar = Ldigit + Rdigit;
-                        var str = Char.ConvertFromUtf32(ichar);
-                        //var str = Convert.ToChar(ichar).ToString();
-                        if (g.MeasureString(str, font, 0, fmt).Width != 0F)
+                        string str;
+                        try
+                        {
+                            str = Char.ConvertFromUtf32(ichar);
+                        }
+                        catch (Exception)
+                        {
+                            continue;
+                        }
+                        if (false == IsTofu(tbmp, tg, str, font, fmt))
                             g.DrawString(str, font, Brushes.Black, left, top, fmt);
                         else
                         {
                             g.DrawString(str, font2, Brushes.Red, left, top, fmt);
                             Err = true;
+                            TextRenderer.DrawText(g, str, font, new Point(left, top), Color.Black);
                         }
-                        TextRenderer.DrawText(g, str, font, new Point(left, top), Color.Black);
+                        //TextRenderer.DrawText(g, str, font, new Point(left, top), Color.Black);
                         left += wid + 5;
-                        //if(left + wid > bmp.Width)
-                        //{
-                        //    left = 0;
-                        //    top += hig + 5;
-                        //    Application.DoEvents();
-                        //}
 
                     }
                     if (top + hig *2+2> bmp.Height || ichar == nuEnd.Value)
@@ -129,6 +138,19 @@ namespace DrawAllChars
             btPrv.Enabled = CurNode?.Previous != null;
             btNxt.Enabled = CurNode?.Next != null;
 
+        }
+        bool IsTofu(Bitmap bmp,Graphics g ,string str,Font font,StringFormat fmt)
+        {
+            g.Clear(Color.White);
+            g.DrawString(str, font, Brushes.Black, 0, 0, fmt);
+            var b =ImageToByteArray(bmp);
+            return b.SequenceEqual(Tofu);
+        }
+        public byte[] ImageToByteArray(Image img)
+        {
+            ImageConverter imgconv = new ImageConverter();
+            byte[] b = (byte[])imgconv.ConvertTo(img, typeof(byte[]));
+            return b;
         }
     }
 }
