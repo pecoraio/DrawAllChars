@@ -18,35 +18,63 @@ namespace DrawAllChars
         LinkedList<Bitmap> bmps = new LinkedList<Bitmap>();
         LinkedListNode<Bitmap> CurNode;
         byte[] Tofu;
+        List<byte[]> TofuTR = new List<byte[]>();
         public Form1()
         {
             InitializeComponent();
             bmp = new Bitmap(768, 1024);
             EnableCtrl();
+
+            #region "比較用トーフ準備"
+            var tbmp = new Bitmap(21, 21);
+            using (var g = Graphics.FromImage(tbmp))
+            using (var font = new Font(this.Font.Name, 16))
+            using (var fmt = new StringFormat(StringFormat.GenericTypographic))
+            {
+                g.Clear(Color.White);
+                g.DrawString(Char.ConvertFromUtf32(0x1F000), font, Brushes.Black, 0, 0, fmt);
+                Tofu = ImageToByteArray(tbmp);
+                g.Clear(Color.White);
+                foreach (var c in new[] { Char.ConvertFromUtf32(0x1F8C0) , Char.ConvertFromUtf32(0x1B170) })
+                {
+                    TextRenderer.DrawText(g, c, font, new Point(0, 0), Color.Black);
+                    TofuTR.Add(ImageToByteArray(tbmp));
+                }
+            }
+            #endregion
         }
-       
+
         private void btStart_Click(object sender, EventArgs e)
         {
             pictureBox1.Image = bmp;
             //dic.Clear();
             foreach (var b in bmps)
                 b.Dispose();
+            bmps.Clear();
 
+            #region "比較用トーフ準備"
             var tbmp = new Bitmap(21, 21);
+            //using (var g = Graphics.FromImage(tbmp))
+            //using (var font = new Font(this.Font.Name, 16))
+            //using (var fmt = new StringFormat(StringFormat.GenericTypographic))
+            //{
+            //    g.Clear(Color.White);
+            //    g.DrawString(Char.ConvertFromUtf32(0x1F000), font, Brushes.Black, 0, 0, fmt);
+            //    Tofu = ImageToByteArray(tbmp);
+            //    g.Clear(Color.White);
+            //    TextRenderer.DrawText(g, Char.ConvertFromUtf32(0x1F8C0), font, new Point(0, 0), Color.Black);
+            //    TofuTR = ImageToByteArray(tbmp);
+            //}
+            #endregion
+
             using (var g = Graphics.FromImage(bmp))
             using (var tg = Graphics.FromImage(tbmp))
             using (var font = new Font(this.Font.Name , 16))
             using (var font2 = new Font(this.Font.Name, 16,FontStyle.Regular))
             using (var fmt = new StringFormat(StringFormat.GenericTypographic))
-            //using (var br = Brushes.Black)
             {
-                //g.PageUnit = GraphicsUnit.Pixel;
+
                 g.Clear(Color.White);
-                tg.Clear(Color.White);
-                tg.DrawString(Char.ConvertFromUtf32(0x1F000), font, Brushes.Black, 0, 0, fmt);
-                Tofu = ImageToByteArray(tbmp);
-
-
                 int top = 5;
                 int start = (int)nuStart.Value;
                 var mes = g.MeasureString("□", font,0,fmt);
@@ -80,9 +108,13 @@ namespace DrawAllChars
                             g.DrawString(str, font, Brushes.Black, left, top, fmt);
                         else
                         {
-                            g.DrawString(str, font2, Brushes.Red, left, top, fmt);
-                            Err = true;
                             TextRenderer.DrawText(g, str, font, new Point(left, top), Color.Green);
+                            if (false == IsTofuTR(tbmp, tg, str, font, fmt))
+                            {
+                                g.DrawString(str, font2, Brushes.Red, left, top, fmt);
+                                Err = true;
+
+                            }
                         }
                         //TextRenderer.DrawText(g, str, font, new Point(left, top), Color.Black);
                         left += wid + 5;
@@ -144,7 +176,25 @@ namespace DrawAllChars
             g.Clear(Color.White);
             g.DrawString(str, font, Brushes.Black, 0, 0, fmt);
             var b =ImageToByteArray(bmp);
+
+            //g.Clear(Color.White);
+            //TextRenderer.DrawText(g, Char.ConvertFromUtf32(0x1F8C0), font, new Point(0, 0), Color.Black);
+            //var b2 = ImageToByteArray(bmp);
+
             return b.SequenceEqual(Tofu);
+        }
+        bool IsTofuTR(Bitmap bmp, Graphics g, string str, Font font, StringFormat fmt)
+        {
+            g.Clear(Color.White);
+            TextRenderer.DrawText(g, str, font, new Point(0, 0), Color.Black);
+            var b = ImageToByteArray(bmp);
+
+            foreach (var t in TofuTR)
+            {
+                if (b.SequenceEqual(t))
+                    return true;
+            }
+            return false;
         }
         public byte[] ImageToByteArray(Image img)
         {
