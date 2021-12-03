@@ -30,7 +30,7 @@ namespace DrawAllChars
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btStart = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.status_disp = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -51,6 +51,7 @@ namespace DrawAllChars
             this.nuEnd = new System.Windows.Forms.NumericUpDown();
             this.nuStart = new System.Windows.Forms.NumericUpDown();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btStop = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -102,9 +103,9 @@ namespace DrawAllChars
             // 
             this.ORDER_DATE.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.ORDER_DATE.DataPropertyName = "ORDER_DATE";
-            dataGridViewCellStyle2.Format = "yyyy/MM/dd HH:mm:ss";
-            dataGridViewCellStyle2.NullValue = null;
-            this.ORDER_DATE.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Format = "yyyy/MM/dd HH:mm:ss";
+            dataGridViewCellStyle1.NullValue = null;
+            this.ORDER_DATE.DefaultCellStyle = dataGridViewCellStyle1;
             this.ORDER_DATE.HeaderText = "注文日時";
             this.ORDER_DATE.MinimumWidth = 6;
             this.ORDER_DATE.Name = "ORDER_DATE";
@@ -164,6 +165,7 @@ namespace DrawAllChars
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.btStop);
             this.splitContainer1.Panel1.Controls.Add(this.label2);
             this.splitContainer1.Panel1.Controls.Add(this.nuSEnd);
             this.splitContainer1.Panel1.Controls.Add(this.nuSStart);
@@ -261,7 +263,7 @@ namespace DrawAllChars
             this.btNxt.Margin = new System.Windows.Forms.Padding(4);
             this.btNxt.Name = "btNxt";
             this.btNxt.Size = new System.Drawing.Size(90, 60);
-            this.btNxt.TabIndex = 4;
+            this.btNxt.TabIndex = 5;
             this.btNxt.Text = "▷";
             this.btNxt.UseVisualStyleBackColor = true;
             this.btNxt.Click += new System.EventHandler(this.btNxt_Click);
@@ -274,7 +276,7 @@ namespace DrawAllChars
             this.btPrv.Margin = new System.Windows.Forms.Padding(4);
             this.btPrv.Name = "btPrv";
             this.btPrv.Size = new System.Drawing.Size(90, 60);
-            this.btPrv.TabIndex = 3;
+            this.btPrv.TabIndex = 4;
             this.btPrv.Text = "◁";
             this.btPrv.UseVisualStyleBackColor = true;
             this.btPrv.Click += new System.EventHandler(this.btPrv_Click);
@@ -343,6 +345,7 @@ namespace DrawAllChars
             0,
             0,
             0});
+            this.nuStart.ValueChanged += new System.EventHandler(this.nuStart_ValueChanged);
             // 
             // pictureBox1
             // 
@@ -355,6 +358,18 @@ namespace DrawAllChars
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
+            // 
+            // btStop
+            // 
+            this.btStop.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.btStop.Location = new System.Drawing.Point(571, 21);
+            this.btStop.Margin = new System.Windows.Forms.Padding(4);
+            this.btStop.Name = "btStop";
+            this.btStop.Size = new System.Drawing.Size(102, 66);
+            this.btStop.TabIndex = 3;
+            this.btStop.Text = "⏹️";
+            this.btStop.UseVisualStyleBackColor = true;
+            this.btStop.Click += new System.EventHandler(this.btStop_Click);
             // 
             // Form1
             // 
@@ -402,6 +417,7 @@ namespace DrawAllChars
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown nuSEnd;
         private System.Windows.Forms.NumericUpDown nuSStart;
+        protected System.Windows.Forms.Button btStop;
     }
 }
 

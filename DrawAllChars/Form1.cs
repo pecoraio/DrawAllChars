@@ -34,9 +34,10 @@ namespace DrawAllChars
                 g.Clear(Color.White);
                 g.DrawString(Char.ConvertFromUtf32(0x1F000), font, Brushes.Black, 0, 0, fmt);
                 Tofu = ImageToByteArray(tbmp);
-                g.Clear(Color.White);
-                foreach (var c in new[] { Char.ConvertFromUtf32(0x1F8C0) , Char.ConvertFromUtf32(0x1B170) })
+                foreach (var c in new[] {   Char.ConvertFromUtf32(0x10) , Char.ConvertFromUtf32(0x80),
+                                            Char.ConvertFromUtf32(0x1F8C0) , Char.ConvertFromUtf32(0x1B170) ,Char.ConvertFromUtf32(0x2A6E0) })
                 {
+                    g.Clear(Color.White);
                     TextRenderer.DrawText(g, c, font, new Point(0, 0), Color.Black);
                     TofuTR.Add(ImageToByteArray(tbmp));
                 }
@@ -44,8 +45,10 @@ namespace DrawAllChars
             #endregion
         }
 
+        bool stop = false;
         private void btStart_Click(object sender, EventArgs e)
         {
+            stop = false;
             pictureBox1.Image = bmp;
             //dic.Clear();
             foreach (var b in bmps)
@@ -122,8 +125,9 @@ namespace DrawAllChars
                     }
                     if (top + hig *2+2> bmp.Height || ichar == nuEnd.Value)
                     {
-                        Directory.CreateDirectory("bmp");
-                        bmp.Save($"bmp\\{start:X5}-{ichar:X5}.bmp");
+                        var suf = $"{(int)nuStart.Value:X}-{(int)nuEnd.Value:X}";
+                        Directory.CreateDirectory($"All-{suf}");
+                        bmp.Save($"All-{suf}\\{start:X5}-{ichar:X5}.png", ImageFormat.Png);
                         nuSStart.Value = start;
                         nuSEnd.Value = ichar;
                         bmps.AddLast(bmp.Clone()as Bitmap);
@@ -132,8 +136,8 @@ namespace DrawAllChars
                         //dic[(start, ichar)] = bmp.Clone() as Bitmap;
                         if (Err)
                         {
-                            Directory.CreateDirectory("Err");
-                            bmp.Save($"Err\\{start:X5}-{ichar:X5}.bmp");
+                            Directory.CreateDirectory($"Err-{suf}");
+                            bmp.Save($"Err-{suf}\\{start:X5}-{ichar:X5}.png",ImageFormat.Png);
                         }
                         start = ichar + 1;
                         top = 5;
@@ -143,6 +147,9 @@ namespace DrawAllChars
                     }
                     else
                         top += hig + 5;
+
+                    if (stop)
+                        break;
                 }
             }
         }
@@ -201,6 +208,17 @@ namespace DrawAllChars
             ImageConverter imgconv = new ImageConverter();
             byte[] b = (byte[])imgconv.ConvertTo(img, typeof(byte[]));
             return b;
+        }
+
+        private void nuStart_ValueChanged(object sender, EventArgs e)
+        {
+            if(nuEnd.Value < nuStart.Value)
+                nuEnd.Value = nuStart.Value + 0x200;
+        }
+
+        private void btStop_Click(object sender, EventArgs e)
+        {
+            stop = true;
         }
     }
 }
