@@ -46,30 +46,20 @@ namespace DrawAllChars
         }
 
         bool stop = false;
+        /// <summary>
+        /// 検査開始
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btStart_Click(object sender, EventArgs e)
         {
             stop = false;
             pictureBox1.Image = bmp;
-            //dic.Clear();
             foreach (var b in bmps)
                 b.Dispose();
             bmps.Clear();
 
-            #region "比較用トーフ準備"
             var tbmp = new Bitmap(21, 21);
-            //using (var g = Graphics.FromImage(tbmp))
-            //using (var font = new Font(this.Font.Name, 16))
-            //using (var fmt = new StringFormat(StringFormat.GenericTypographic))
-            //{
-            //    g.Clear(Color.White);
-            //    g.DrawString(Char.ConvertFromUtf32(0x1F000), font, Brushes.Black, 0, 0, fmt);
-            //    Tofu = ImageToByteArray(tbmp);
-            //    g.Clear(Color.White);
-            //    TextRenderer.DrawText(g, Char.ConvertFromUtf32(0x1F8C0), font, new Point(0, 0), Color.Black);
-            //    TofuTR = ImageToByteArray(tbmp);
-            //}
-            #endregion
-
             using (var g = Graphics.FromImage(bmp))
             using (var tg = Graphics.FromImage(tbmp))
             using (var font = new Font(this.Font.Name , 16))
@@ -85,7 +75,6 @@ namespace DrawAllChars
                 var hig = (int)mes.Height;
                 var mes2 = g.MeasureString("XXXXX", font, 0, fmt);
                 var wid2 = (int)mes2.Width;
-                //var page = 1;
                 bool Err = false;
                 for (int Ldigit = start; Ldigit < (int)nuEnd.Value; Ldigit+=0x10)
                 {
@@ -95,6 +84,7 @@ namespace DrawAllChars
                     Application.DoEvents();
                     pictureBox1.Invalidate();
                     int ichar= Ldigit;
+                    //１ライン 16文字ずつ描画
                     for (int Rdigit = 0; Rdigit < 0x10; Rdigit++)
                     {
                         ichar = Ldigit + Rdigit;
@@ -118,13 +108,15 @@ namespace DrawAllChars
                                 Err = true;
 
                             }
+                            else
+                                g.DrawString(str, font, Brushes.Black, left, top, fmt);
                         }
-                        //TextRenderer.DrawText(g, str, font, new Point(left, top), Color.Black);
                         left += wid + 5;
 
                     }
                     if (top + hig *2+2> bmp.Height || ichar == nuEnd.Value)
                     {
+                        //改ページと保存
                         var suf = $"{(int)nuStart.Value:X}-{(int)nuEnd.Value:X}";
                         Directory.CreateDirectory($"All-{suf}");
                         bmp.Save($"All-{suf}\\{start:X5}-{ichar:X5}.png", ImageFormat.Png);
@@ -133,7 +125,6 @@ namespace DrawAllChars
                         bmps.AddLast(bmp.Clone()as Bitmap);
                         CurNode = bmps.Last;
                         btPrv.Enabled = true;
-                        //dic[(start, ichar)] = bmp.Clone() as Bitmap;
                         if (Err)
                         {
                             Directory.CreateDirectory($"Err-{suf}");
@@ -160,8 +151,6 @@ namespace DrawAllChars
             pictureBox1.Image = CurNode.Value;
             pictureBox1.Invalidate();
             EnableCtrl();
-            //btPrv.Enabled = CurNode.Previous != null;
-            //btNxt.Enabled = CurNode.Next != null;
 
         }
 
@@ -183,11 +172,6 @@ namespace DrawAllChars
             g.Clear(Color.White);
             g.DrawString(str, font, Brushes.Black, 0, 0, fmt);
             var b =ImageToByteArray(bmp);
-
-            //g.Clear(Color.White);
-            //TextRenderer.DrawText(g, Char.ConvertFromUtf32(0x1F8C0), font, new Point(0, 0), Color.Black);
-            //var b2 = ImageToByteArray(bmp);
-
             return b.SequenceEqual(Tofu);
         }
         bool IsTofuTR(Bitmap bmp, Graphics g, string str, Font font, StringFormat fmt)
