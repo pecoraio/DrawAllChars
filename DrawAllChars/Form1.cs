@@ -76,7 +76,7 @@ namespace DrawAllChars
                 var mes2 = g.MeasureString("XXXXX", font, 0, fmt);
                 var wid2 = (int)mes2.Width;
                 bool Err = false;
-                for (int Ldigit = start; Ldigit < (int)nuEnd.Value; Ldigit+=0x10)
+                for (int Ldigit = start; Ldigit <= (int)nuEnd.Value; Ldigit+=0x10)
                 {
                     int left = 5;
                     g.DrawString($"{Ldigit:X5}", font, Brushes.Black, left, top, fmt);
@@ -114,14 +114,14 @@ namespace DrawAllChars
                         left += wid + 5;
 
                     }
-                    if (top + hig *2+2> bmp.Height || ichar == nuEnd.Value)
+                    if (top + hig *2+2> bmp.Height || Ldigit >= nuEnd.Value)
                     {
                         //改ページと保存
                         var suf = $"{(int)nuStart.Value:X}-{(int)nuEnd.Value:X}";
                         Directory.CreateDirectory($"All-{suf}");
                         bmp.Save($"All-{suf}\\{start:X5}-{ichar:X5}.png", ImageFormat.Png);
-                        nuSStart.Value = start;
-                        nuSEnd.Value = ichar;
+                        //nuSStart.Value = start;
+                        //nuSEnd.Value = ichar;
                         bmps.AddLast(bmp.Clone()as Bitmap);
                         CurNode = bmps.Last;
                         btPrv.Enabled = true;
