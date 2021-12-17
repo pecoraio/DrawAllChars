@@ -30,7 +30,7 @@ namespace DrawAllChars
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btStart = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.status_disp = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -42,25 +42,23 @@ namespace DrawAllChars
             this.ORDER_CD = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Check = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.btStop = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.nuSEnd = new System.Windows.Forms.NumericUpDown();
-            this.nuSStart = new System.Windows.Forms.NumericUpDown();
             this.btNxt = new System.Windows.Forms.Button();
             this.btPrv = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.nuEnd = new System.Windows.Forms.NumericUpDown();
             this.nuStart = new System.Windows.Forms.NumericUpDown();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btStop = new System.Windows.Forms.Button();
+            this.nuNgAll = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nuSEnd)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nuSStart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nuEnd)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nuStart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nuNgAll)).BeginInit();
             this.SuspendLayout();
             // 
             // btStart
@@ -103,9 +101,9 @@ namespace DrawAllChars
             // 
             this.ORDER_DATE.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.ORDER_DATE.DataPropertyName = "ORDER_DATE";
-            dataGridViewCellStyle1.Format = "yyyy/MM/dd HH:mm:ss";
-            dataGridViewCellStyle1.NullValue = null;
-            this.ORDER_DATE.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Format = "yyyy/MM/dd HH:mm:ss";
+            dataGridViewCellStyle2.NullValue = null;
+            this.ORDER_DATE.DefaultCellStyle = dataGridViewCellStyle2;
             this.ORDER_DATE.HeaderText = "注文日時";
             this.ORDER_DATE.MinimumWidth = 6;
             this.ORDER_DATE.Name = "ORDER_DATE";
@@ -165,10 +163,9 @@ namespace DrawAllChars
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.nuNgAll);
             this.splitContainer1.Panel1.Controls.Add(this.btStop);
             this.splitContainer1.Panel1.Controls.Add(this.label2);
-            this.splitContainer1.Panel1.Controls.Add(this.nuSEnd);
-            this.splitContainer1.Panel1.Controls.Add(this.nuSStart);
             this.splitContainer1.Panel1.Controls.Add(this.btNxt);
             this.splitContainer1.Panel1.Controls.Add(this.btPrv);
             this.splitContainer1.Panel1.Controls.Add(this.label1);
@@ -185,6 +182,18 @@ namespace DrawAllChars
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 0;
             // 
+            // btStop
+            // 
+            this.btStop.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.btStop.Location = new System.Drawing.Point(571, 21);
+            this.btStop.Margin = new System.Windows.Forms.Padding(4);
+            this.btStop.Name = "btStop";
+            this.btStop.Size = new System.Drawing.Size(102, 66);
+            this.btStop.TabIndex = 3;
+            this.btStop.Text = "⏹️";
+            this.btStop.UseVisualStyleBackColor = true;
+            this.btStop.Click += new System.EventHandler(this.btStop_Click);
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -195,65 +204,6 @@ namespace DrawAllChars
             this.label2.TabIndex = 8;
             this.label2.Text = "-";
             this.label2.Visible = false;
-            // 
-            // nuSEnd
-            // 
-            this.nuSEnd.Enabled = false;
-            this.nuSEnd.Font = new System.Drawing.Font("ＭＳ ゴシック", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.nuSEnd.Hexadecimal = true;
-            this.nuSEnd.Increment = new decimal(new int[] {
-            16,
-            0,
-            0,
-            0});
-            this.nuSEnd.Location = new System.Drawing.Point(1536, 5);
-            this.nuSEnd.Maximum = new decimal(new int[] {
-            983039,
-            0,
-            0,
-            0});
-            this.nuSEnd.Minimum = new decimal(new int[] {
-            16,
-            0,
-            0,
-            0});
-            this.nuSEnd.Name = "nuSEnd";
-            this.nuSEnd.Size = new System.Drawing.Size(120, 30);
-            this.nuSEnd.TabIndex = 7;
-            this.nuSEnd.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.nuSEnd.Value = new decimal(new int[] {
-            128767,
-            0,
-            0,
-            0});
-            this.nuSEnd.Visible = false;
-            // 
-            // nuSStart
-            // 
-            this.nuSStart.Enabled = false;
-            this.nuSStart.Font = new System.Drawing.Font("ＭＳ ゴシック", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.nuSStart.Hexadecimal = true;
-            this.nuSStart.Increment = new decimal(new int[] {
-            16,
-            0,
-            0,
-            0});
-            this.nuSStart.Location = new System.Drawing.Point(1356, 5);
-            this.nuSStart.Maximum = new decimal(new int[] {
-            983039,
-            0,
-            0,
-            0});
-            this.nuSStart.Name = "nuSStart";
-            this.nuSStart.Size = new System.Drawing.Size(120, 30);
-            this.nuSStart.TabIndex = 6;
-            this.nuSStart.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.nuSStart.Value = new decimal(new int[] {
-            128512,
-            0,
-            0,
-            0});
-            this.nuSStart.Visible = false;
             // 
             // btNxt
             // 
@@ -359,17 +309,19 @@ namespace DrawAllChars
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
-            // btStop
+            // nuNgAll
             // 
-            this.btStop.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.btStop.Location = new System.Drawing.Point(571, 21);
-            this.btStop.Margin = new System.Windows.Forms.Padding(4);
-            this.btStop.Name = "btStop";
-            this.btStop.Size = new System.Drawing.Size(102, 66);
-            this.btStop.TabIndex = 3;
-            this.btStop.Text = "⏹️";
-            this.btStop.UseVisualStyleBackColor = true;
-            this.btStop.Click += new System.EventHandler(this.btStop_Click);
+            this.nuNgAll.Font = new System.Drawing.Font("ＭＳ ゴシック", 13.8F, System.Drawing.FontStyle.Bold);
+            this.nuNgAll.Location = new System.Drawing.Point(692, 56);
+            this.nuNgAll.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.nuNgAll.Name = "nuNgAll";
+            this.nuNgAll.Size = new System.Drawing.Size(87, 30);
+            this.nuNgAll.TabIndex = 9;
+            this.nuNgAll.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // Form1
             // 
@@ -386,11 +338,10 @@ namespace DrawAllChars
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.nuSEnd)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nuSStart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nuEnd)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nuStart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nuNgAll)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -415,9 +366,8 @@ namespace DrawAllChars
         private System.Windows.Forms.NumericUpDown nuEnd;
         private System.Windows.Forms.NumericUpDown nuStart;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.NumericUpDown nuSEnd;
-        private System.Windows.Forms.NumericUpDown nuSStart;
         protected System.Windows.Forms.Button btStop;
+        private System.Windows.Forms.NumericUpDown nuNgAll;
     }
 }
 

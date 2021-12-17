@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -46,6 +47,7 @@ namespace DrawAllChars
         }
 
         bool stop = false;
+        int csvid = 1;
         /// <summary>
         /// 検査開始
         /// </summary>
@@ -75,7 +77,12 @@ namespace DrawAllChars
                 var hig = (int)mes.Height;
                 var mes2 = g.MeasureString("XXXXX", font, 0, fmt);
                 var wid2 = (int)mes2.Width;
-                bool Err = false;
+                int NgCounter = 0;
+                int TofuCounter = 0;
+                nuNgAll.Value = 0;
+                int csvCol =1;
+                var csv = new List<string[]>();
+                var csvRow = new string[21];
                 for (int Ldigit = start; Ldigit <= (int)nuEnd.Value; Ldigit+=0x10)
                 {
                     int left = 5;
@@ -93,39 +100,71 @@ namespace DrawAllChars
                         {
                             str = Char.ConvertFromUtf32(ichar);
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
+                            Trace.Write(ex.Message);
+                            g.DrawString($"{ex.Message}", font, Brushes.Red, bmp.Width - 350, bmp.Height - 50, fmt);
                             continue;
                         }
                         if (false == IsTofu(tbmp, tg, str, font, fmt))
                             g.DrawString(str, font, Brushes.Black, left, top, fmt);
                         else
                         {
+                            TofuCounter++;
                             TextRenderer.DrawText(g, str, font, new Point(left, top), Color.Green);
                             if (false == IsTofuTR(tbmp, tg, str, font, fmt))
                             {
                                 g.DrawString(str, font2, Brushes.Red, left, top, fmt);
-                                Err = true;
-
+                                NgCounter++;
+                                nuNgAll.Value++;
                             }
                             else
                                 g.DrawString(str, font, Brushes.Black, left, top, fmt);
+
+                            #region CSV行作成
+                            if (csvCol == 1 && string.IsNullOrEmpty(csvRow[0]))
+                            {
+                                csvRow[0] = $"{csvid:d3}";
+                                csvid++;
+                            }
+                            if(string.IsNullOrEmpty( csvRow[csvCol]))
+                            {
+                                csvRow[csvCol] = $"U+{Ldigit:X4}:";
+                            }
+                            csvRow[csvCol] += str;
+                            #endregion
                         }
                         left += wid + 5;
 
                     }
-                    if (top + hig *2+2> bmp.Height || Ldigit >= nuEnd.Value)
+                    #region CSV行作成
+                    if (string.IsNullOrEmpty(csvRow[csvCol])==false)
                     {
+                        csvCol++;
+                        if (csvCol == 21)
+                        {
+                            csv.Add(csvRow);
+                            csvRow = new string[21];
+                            csvCol = 1;
+                        }
+                    }
+                    #endregion
+
+                    if (top + hig *2+2> bmp.Height || Ldigit + 0xf >= nuEnd.Value)
+                    {
+                        if (TofuCounter > 0)
+                            g.DrawString($"{Char.ConvertFromUtf32(0x1F000)} = {TofuCounter}", font, Brushes.Black, bmp.Width - 150, 50, fmt);
+                        if (NgCounter>0)
+                            g.DrawString($"NG = {NgCounter}", font, Brushes.Red, bmp.Width-150, 80, fmt);
+
                         //改ページと保存
                         var suf = $"{(int)nuStart.Value:X}-{(int)nuEnd.Value:X}";
                         Directory.CreateDirectory($"All-{suf}");
                         bmp.Save($"All-{suf}\\{start:X5}-{ichar:X5}.png", ImageFormat.Png);
-                        //nuSStart.Value = start;
-                        //nuSEnd.Value = ichar;
                         bmps.AddLast(bmp.Clone()as Bitmap);
                         CurNode = bmps.Last;
                         btPrv.Enabled = true;
-                        if (Err)
+                        if (NgCounter >0)
                         {
                             Directory.CreateDirectory($"Err-{suf}");
                             bmp.Save($"Err-{suf}\\{start:X5}-{ichar:X5}.png",ImageFormat.Png);
@@ -134,7 +173,9 @@ namespace DrawAllChars
                         top = 5;
                         if(ichar != nuEnd.Value)
                             g.Clear(Color.White);
-                        Err = false;
+
+                        NgCounter = 0;
+                        TofuCounter = 0;
                     }
                     else
                         top += hig + 5;
@@ -142,6 +183,21 @@ namespace DrawAllChars
                     if (stop)
                         break;
                 }
+                #region CSV行作成
+                if (string.IsNullOrEmpty(csvRow[0]) == false)
+                {
+                   csv.Add(csvRow);
+                }
+                #endregion
+                try
+                {
+                    File.WriteAllLines($"{(int)nuStart.Value:X}-{(int)nuEnd.Value:X}.csv", csv.Select(x=>string.Join(",",x)).ToArray());
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
             }
         }
 
